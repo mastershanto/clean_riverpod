@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'transitions/no_transition_mixin.dart';
 import '../features/crud/presentation/home_page.dart';
 import '../features/deshboard/deshboard.dart';
-import '../widgets/coming_soon_page.dart';
+import '../features/deshboard/widgets/coming_soon_page.dart';
 
 part 'app_router.g.dart';
 
