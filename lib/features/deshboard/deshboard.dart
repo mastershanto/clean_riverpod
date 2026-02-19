@@ -1,0 +1,152 @@
+import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
+import 'package:clean_riverpod/features/deshboard/widgets/feature_card.dart';
+import 'package:clean_riverpod/router/app_router.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class Dashboard extends ConsumerWidget {
+  const Dashboard({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = ref.watch(themeProvider.notifier).isDark;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Dashboard',
+          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        centerTitle: true,
+        elevation: 0,
+        actions: [
+          IconButton(
+            tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+            icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
+            onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Padding(
+              padding: EdgeInsets.only(bottom: 24.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Welcome Back! 👋',
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    'Select a feature to get started',
+                    style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+
+            // Features Grid
+            GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12.w,
+              mainAxisSpacing: 12.h,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              childAspectRatio: 0.65,
+              children: [
+                // User Management Card  →  Slide transition
+                FeatureCard(
+                  title: 'User CRUD',
+                  description: 'Manage user information',
+                  icon: Icons.people_outline,
+                  color: const Color(0xFF7C3AED),
+                  onTap: () => const UserCrudRoute().push(context),
+                ),
+
+                // Analytics Card  →  Fade transition
+                FeatureCard(
+                  title: 'Analytics',
+                  description: 'View statistics & reports',
+                  icon: Icons.analytics_outlined,
+                  color: const Color(0xFF0EA5E9),
+                  onTap: () => const AnalyticsRoute().push(context),
+                ),
+
+                // Settings Card  →  Fade transition
+                FeatureCard(
+                  title: 'Settings',
+                  description: 'Configure your preferences',
+                  icon: Icons.settings_outlined,
+                  color: const Color(0xFF10B981),
+                  onTap: () => const SettingsRoute().push(context),
+                ),
+
+                // Profile Card  →  Fade transition
+                FeatureCard(
+                  title: 'Profile',
+                  description: 'Manage your profile',
+                  icon: Icons.account_circle_outlined,
+                  color: const Color(0xFFF59E0B),
+                  onTap: () => const ProfileRoute().push(context),
+                ),
+
+                // Notifications Card  →  Fade transition
+                FeatureCard(
+                  title: 'Notifications',
+                  description: 'Check notifications',
+                  icon: Icons.notifications_outlined,
+                  color: const Color(0xFFEC4899),
+                  onTap: () => const NotificationsRoute().push(context),
+                ),
+
+                // Help Card  →  Fade transition
+                FeatureCard(
+                  title: 'Help & Support',
+                  description: 'Get help and support',
+                  icon: Icons.help_outline,
+                  color: const Color(0xFF8B5CF6),
+                  onTap: () => const HelpRoute().push(context),
+                ),
+              ],
+            ),
+
+            // Footer info
+            Padding(
+              padding: EdgeInsets.only(top: 32.h),
+              child: Container(
+                padding: EdgeInsets.all(16.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.r),
+                  color: Colors.grey.withValues(alpha: 0.1),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outlined, color: Colors.grey, size: 20.sp),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: Text(
+                        'More features coming soon!',
+                        style: TextStyle(fontSize: 13.sp, color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
