@@ -1,0 +1,117 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Clean Riverpod",
+  "@appTitle": { "description": "Application title" },
+
+  "dashboardTitle": "Dashboard",
+  "@dashboardTitle": { "description": "Dashboard page title" },
+
+  "welcomeBack": "Welcome Back! 👋",
+  "@welcomeBack": { "description": "Welcome greeting on dashboard" },
+
+  "selectFeature": "Select a feature to get started",
+  "@selectFeature": { "description": "Dashboard subtitle" },
+
+  "userCrud": "User CRUD",
+  "@userCrud": { "description": "User CRUD feature card title" },
+
+  "userCrudDesc": "Manage user information",
+  "@userCrudDesc": { "description": "User CRUD feature card description" },
+
+  "analytics": "Analytics",
+  "@analytics": { "description": "Analytics feature card title" },
+
+  "analyticsDesc": "View statistics & reports",
+  "@analyticsDesc": { "description": "Analytics feature card description" },
+
+  "settings": "Settings",
+  "@settings": { "description": "Settings feature card title" },
+
+  "settingsDesc": "Configure your preferences",
+  "@settingsDesc": { "description": "Settings feature card description" },
+
+  "profile": "Profile",
+  "@profile": { "description": "Profile feature card title" },
+
+  "profileDesc": "Manage your profile",
+  "@profileDesc": { "description": "Profile feature card description" },
+
+  "notifications": "Notifications",
+  "@notifications": { "description": "Notifications feature card title" },
+
+  "notificationsDesc": "Check notifications",
+  "@notificationsDesc": { "description": "Notifications feature card description" },
+
+  "helpSupport": "Help & Support",
+  "@helpSupport": { "description": "Help & Support feature card title" },
+
+  "helpSupportDesc": "Get help and support",
+  "@helpSupportDesc": { "description": "Help & Support feature card description" },
+
+  "moreFeaturesSoon": "More features coming soon!",
+  "@moreFeaturesSoon": { "description": "Footer note on dashboard" },
+
+  "switchToLightMode": "Switch to Light Mode",
+  "@switchToLightMode": { "description": "Tooltip for dark mode toggle button" },
+
+  "switchToDarkMode": "Switch to Dark Mode",
+  "@switchToDarkMode": { "description": "Tooltip for light mode toggle button" },
+
+  "switchToBangla": "বাংলায় পরিবর্তন করুন",
+  "@switchToBangla": { "description": "Tooltip to switch language to Bangla" },
+
+  "switchToEnglish": "Switch to English",
+  "@switchToEnglish": { "description": "Tooltip to switch language to English" },
+
+  "userManagement": "User Management",
+  "@userManagement": { "description": "User Management page title" },
+
+  "addUser": "Add User",
+  "@addUser": { "description": "Button to add a new user" },
+
+  "editUser": "Edit User",
+  "@editUser": { "description": "Dialog title for editing a user" },
+
+  "deleteUser": "Delete User",
+  "@deleteUser": { "description": "Button/dialog title for deleting a user" },
+
+  "noUsersYet": "No users yet",
+  "@noUsersYet": { "description": "Empty state heading" },
+
+  "addFirstUser": "Tap + to add your first user",
+  "@addFirstUser": { "description": "Empty state description" },
+
+  "name": "Name",
+  "@name": { "description": "Label for name field" },
+
+  "email": "Email",
+  "@email": { "description": "Label for email field" },
+
+  "phone": "Phone",
+  "@phone": { "description": "Label for phone field" },
+
+  "save": "Save",
+  "@save": { "description": "Save button label" },
+
+  "cancel": "Cancel",
+  "@cancel": { "description": "Cancel button label" },
+
+  "delete": "Delete",
+  "@delete": { "description": "Delete button label" },
+
+  "deleteConfirmTitle": "Delete User",
+  "@deleteConfirmTitle": { "description": "Title for delete confirmation dialog" },
+
+  "deleteConfirmMessage": "Are you sure you want to delete this user?",
+  "@deleteConfirmMessage": { "description": "Body text for delete confirmation dialog" },
+
+  "comingSoon": "Coming Soon 🚀",
+  "@comingSoon": { "description": "Coming soon heading" },
+
+  "comingSoonDesc": "This feature is under development.\nCheck back soon!",
+  "@comingSoonDesc": { "description": "Coming soon body text" },
+
+  "backToDashboard": "Back to Dashboard",
+  "@backToDashboard": { "description": "Button to go back to dashboard" }
+}

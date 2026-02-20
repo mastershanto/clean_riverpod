@@ -1,3 +1,5 @@
+import 'package:clean_riverpod/l10n/app_locale.dart';
+import 'package:clean_riverpod/l10n/l10n_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +28,7 @@ class ComingSoonPage extends StatelessWidget {
               Icon(Icons.work_outline, size: 80.sp, color: Colors.grey),
               SizedBox(height: 24.h),
               Text(
-                '$title Coming Soon 🚀',
+                '$title ${context.t(AppLocale.comingSoon)}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 22.sp,
@@ -35,7 +37,7 @@ class ComingSoonPage extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
               Text(
-                'This feature is under development.\nCheck back soon!',
+                context.t(AppLocale.comingSoonDesc),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14.sp, color: Colors.grey),
               ),
@@ -43,7 +45,7 @@ class ComingSoonPage extends StatelessWidget {
               FilledButton.icon(
                 onPressed: () => context.go('/'),
                 icon: const Icon(Icons.home),
-                label: Text('Back to Dashboard',
+                label: Text(context.t(AppLocale.backToDashboard),
                     style: TextStyle(fontSize: 14.sp)),
               ),
             ],

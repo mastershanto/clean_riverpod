@@ -1,5 +1,8 @@
 import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
 import 'package:clean_riverpod/features/deshboard/widgets/feature_card.dart';
+import 'package:clean_riverpod/l10n/app_locale.dart';
+import 'package:clean_riverpod/l10n/l10n_extension.dart';
+import 'package:clean_riverpod/providers/locale_provider.dart';
 import 'package:clean_riverpod/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,20 +13,55 @@ class Dashboard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDark = ref.watch(themeProvider.notifier).isDark;
+    // ✅ watch the state directly — rebuilds reactively when toggled
+    final themeMode = ref.watch(themeProvider);
+    final locale = ref.watch(localeProvider);
+    final isDark = themeMode == ThemeMode.dark;
+    final isBangla = locale.languageCode == 'bn';
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Dashboard',
+          context.t(AppLocale.dashboardTitle),
           style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         centerTitle: true,
         elevation: 0,
         actions: [
+          // ── Language Toggle ───────────────────────────────────────────
+          Tooltip(
+            message: isBangla
+                ? context.t(AppLocale.switchToEnglish)
+                : context.t(AppLocale.switchToBangla),
+            child: GestureDetector(
+              onTap: () => ref.read(localeProvider.notifier).toggleLocale(),
+              child: Container(
+                margin: EdgeInsets.only(right: 6.w),
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 1.2,
+                  ),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Text(
+                  isBangla ? 'EN' : 'বাং',
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // ── Theme Toggle ──────────────────────────────────────────────
           IconButton(
-            tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+            tooltip: isDark
+                ? context.t(AppLocale.switchToLightMode)
+                : context.t(AppLocale.switchToDarkMode),
             icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
             onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
           ),
@@ -41,7 +79,7 @@ class Dashboard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome Back! 👋',
+                    context.t(AppLocale.welcomeBack),
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
@@ -49,7 +87,7 @@ class Dashboard extends ConsumerWidget {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    'Select a feature to get started',
+                    context.t(AppLocale.selectFeature),
                     style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                   ),
                 ],
@@ -65,55 +103,55 @@ class Dashboard extends ConsumerWidget {
               physics: const NeverScrollableScrollPhysics(),
               childAspectRatio: 0.65,
               children: [
-                // User Management Card  →  Slide transition
+                // User Management Card
                 FeatureCard(
-                  title: 'User CRUD',
-                  description: 'Manage user information',
+                  title: context.t(AppLocale.userCrud),
+                  description: context.t(AppLocale.userCrudDesc),
                   icon: Icons.people_outline,
                   color: const Color(0xFF7C3AED),
                   onTap: () => const UserCrudRoute().push(context),
                 ),
 
-                // Analytics Card  →  Fade transition
+                // Analytics Card
                 FeatureCard(
-                  title: 'Analytics',
-                  description: 'View statistics & reports',
+                  title: context.t(AppLocale.analytics),
+                  description: context.t(AppLocale.analyticsDesc),
                   icon: Icons.analytics_outlined,
                   color: const Color(0xFF0EA5E9),
                   onTap: () => const AnalyticsRoute().push(context),
                 ),
 
-                // Settings Card  →  Fade transition
+                // Settings Card
                 FeatureCard(
-                  title: 'Settings',
-                  description: 'Configure your preferences',
+                  title: context.t(AppLocale.settings),
+                  description: context.t(AppLocale.settingsDesc),
                   icon: Icons.settings_outlined,
                   color: const Color(0xFF10B981),
                   onTap: () => const SettingsRoute().push(context),
                 ),
 
-                // Profile Card  →  Fade transition
+                // Profile Card
                 FeatureCard(
-                  title: 'Profile',
-                  description: 'Manage your profile',
+                  title: context.t(AppLocale.profile),
+                  description: context.t(AppLocale.profileDesc),
                   icon: Icons.account_circle_outlined,
                   color: const Color(0xFFF59E0B),
                   onTap: () => const ProfileRoute().push(context),
                 ),
 
-                // Notifications Card  →  Fade transition
+                // Notifications Card
                 FeatureCard(
-                  title: 'Notifications',
-                  description: 'Check notifications',
+                  title: context.t(AppLocale.notifications),
+                  description: context.t(AppLocale.notificationsDesc),
                   icon: Icons.notifications_outlined,
                   color: const Color(0xFFEC4899),
                   onTap: () => const NotificationsRoute().push(context),
                 ),
 
-                // Help Card  →  Fade transition
+                // Help Card
                 FeatureCard(
-                  title: 'Help & Support',
-                  description: 'Get help and support',
+                  title: context.t(AppLocale.helpSupport),
+                  description: context.t(AppLocale.helpSupportDesc),
                   icon: Icons.help_outline,
                   color: const Color(0xFF8B5CF6),
                   onTap: () => const HelpRoute().push(context),
@@ -136,7 +174,7 @@ class Dashboard extends ConsumerWidget {
                     SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
-                        'More features coming soon!',
+                        context.t(AppLocale.moreFeaturesSoon),
                         style: TextStyle(fontSize: 13.sp, color: Colors.grey),
                       ),
                     ),
