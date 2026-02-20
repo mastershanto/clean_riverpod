@@ -1,5 +1,5 @@
-import 'package:clean_riverpod/l10n/app_locale.dart';
-import 'package:clean_riverpod/l10n/l10n_extension.dart';
+import 'package:clean_riverpod/localization/app_locale.dart';
+import 'package:clean_riverpod/localization/app_localization_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';

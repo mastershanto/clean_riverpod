@@ -1,7 +1,7 @@
 import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
 import 'package:clean_riverpod/features/deshboard/widgets/feature_card.dart';
-import 'package:clean_riverpod/l10n/app_locale.dart';
-import 'package:clean_riverpod/l10n/l10n_extension.dart';
+import 'package:clean_riverpod/localization/app_locale.dart';
+import 'package:clean_riverpod/localization/app_localization_ext.dart';
 import 'package:clean_riverpod/providers/locale_provider.dart';
 import 'package:clean_riverpod/router/app_router.dart';
 import 'package:flutter/material.dart';

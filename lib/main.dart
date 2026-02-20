@@ -1,5 +1,5 @@
 import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
-import 'package:clean_riverpod/l10n/app_locale.dart';
+import 'package:clean_riverpod/localization/app_locale.dart';
 import 'package:clean_riverpod/providers/locale_provider.dart';
 import 'package:clean_riverpod/router/app_router.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ void main() {
 
   // ── Initialize flutter_localization ──────────────────────────────────────
   // Add MapLocale entries here whenever you add a new language.
+  FlutterLocalization.instance.ensureInitialized();
   FlutterLocalization.instance.init(
     mapLocales: [
       const MapLocale('en', AppLocale.en),
