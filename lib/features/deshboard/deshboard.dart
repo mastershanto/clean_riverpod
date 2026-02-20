@@ -19,10 +19,13 @@ class Dashboard extends ConsumerWidget {
     final isDark = themeMode == ThemeMode.dark;
     final isBangla = locale.languageCode == 'bn';
 
+    // Helper function to translate
+    String tr(String key) => translate(key, locale);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          context.t(AppLocale.dashboardTitle),
+          tr(AppLocale.dashboardTitle),
           style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -32,8 +35,8 @@ class Dashboard extends ConsumerWidget {
           // ── Language Toggle ───────────────────────────────────────────
           Tooltip(
             message: isBangla
-                ? context.t(AppLocale.switchToEnglish)
-                : context.t(AppLocale.switchToBangla),
+                ? tr(AppLocale.switchToEnglish)
+                : tr(AppLocale.switchToBangla),
             child: GestureDetector(
               onTap: () => ref.read(localeProvider.notifier).toggleLocale(),
               child: Container(
@@ -60,8 +63,8 @@ class Dashboard extends ConsumerWidget {
           // ── Theme Toggle ──────────────────────────────────────────────
           IconButton(
             tooltip: isDark
-                ? context.t(AppLocale.switchToLightMode)
-                : context.t(AppLocale.switchToDarkMode),
+                ? tr(AppLocale.switchToLightMode)
+                : tr(AppLocale.switchToDarkMode),
             icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
             onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
           ),
@@ -79,7 +82,7 @@ class Dashboard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    context.t(AppLocale.welcomeBack),
+                    tr(AppLocale.welcomeBack),
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
@@ -87,7 +90,7 @@ class Dashboard extends ConsumerWidget {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    context.t(AppLocale.selectFeature),
+                    tr(AppLocale.selectFeature),
                     style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                   ),
                 ],
@@ -105,8 +108,8 @@ class Dashboard extends ConsumerWidget {
               children: [
                 // User Management Card
                 FeatureCard(
-                  title: context.t(AppLocale.userCrud),
-                  description: context.t(AppLocale.userCrudDesc),
+                  title: tr(AppLocale.userCrud),
+                  description: tr(AppLocale.userCrudDesc),
                   icon: Icons.people_outline,
                   color: const Color(0xFF7C3AED),
                   onTap: () => const UserCrudRoute().push(context),
@@ -114,8 +117,8 @@ class Dashboard extends ConsumerWidget {
 
                 // Analytics Card
                 FeatureCard(
-                  title: context.t(AppLocale.analytics),
-                  description: context.t(AppLocale.analyticsDesc),
+                  title: tr(AppLocale.analytics),
+                  description: tr(AppLocale.analyticsDesc),
                   icon: Icons.analytics_outlined,
                   color: const Color(0xFF0EA5E9),
                   onTap: () => const AnalyticsRoute().push(context),
@@ -123,8 +126,8 @@ class Dashboard extends ConsumerWidget {
 
                 // Settings Card
                 FeatureCard(
-                  title: context.t(AppLocale.settings),
-                  description: context.t(AppLocale.settingsDesc),
+                  title: tr(AppLocale.settings),
+                  description: tr(AppLocale.settingsDesc),
                   icon: Icons.settings_outlined,
                   color: const Color(0xFF10B981),
                   onTap: () => const SettingsRoute().push(context),
@@ -132,8 +135,8 @@ class Dashboard extends ConsumerWidget {
 
                 // Profile Card
                 FeatureCard(
-                  title: context.t(AppLocale.profile),
-                  description: context.t(AppLocale.profileDesc),
+                  title: tr(AppLocale.profile),
+                  description: tr(AppLocale.profileDesc),
                   icon: Icons.account_circle_outlined,
                   color: const Color(0xFFF59E0B),
                   onTap: () => const ProfileRoute().push(context),
@@ -141,8 +144,8 @@ class Dashboard extends ConsumerWidget {
 
                 // Notifications Card
                 FeatureCard(
-                  title: context.t(AppLocale.notifications),
-                  description: context.t(AppLocale.notificationsDesc),
+                  title: tr(AppLocale.notifications),
+                  description: tr(AppLocale.notificationsDesc),
                   icon: Icons.notifications_outlined,
                   color: const Color(0xFFEC4899),
                   onTap: () => const NotificationsRoute().push(context),
@@ -150,8 +153,8 @@ class Dashboard extends ConsumerWidget {
 
                 // Help Card
                 FeatureCard(
-                  title: context.t(AppLocale.helpSupport),
-                  description: context.t(AppLocale.helpSupportDesc),
+                  title: tr(AppLocale.helpSupport),
+                  description: tr(AppLocale.helpSupportDesc),
                   icon: Icons.help_outline,
                   color: const Color(0xFF8B5CF6),
                   onTap: () => const HelpRoute().push(context),
@@ -174,7 +177,7 @@ class Dashboard extends ConsumerWidget {
                     SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
-                        context.t(AppLocale.moreFeaturesSoon),
+                        tr(AppLocale.moreFeaturesSoon),
                         style: TextStyle(fontSize: 13.sp, color: Colors.grey),
                       ),
                     ),
