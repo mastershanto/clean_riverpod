@@ -8,7 +8,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
   });
 
   final String userName;
-  final VoidCallback onConfirm;
+  final Future<void> Function() onConfirm;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +22,8 @@ class DeleteConfirmationDialog extends StatelessWidget {
         ),
         FilledButton(
           style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
-          onPressed: () {
-            onConfirm();
-            Navigator.pop(context);
+          onPressed: () async {
+            await onConfirm();
           },
           child: const Text('Delete'),
         ),

@@ -25,8 +25,7 @@ class _FormField extends StatelessWidget {
         prefixIcon: Icon(icon),
         border: const OutlineInputBorder(),
       ),
-      validator:
-          validator ??
+      validator: validator ??
           (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
     );
   }
@@ -48,8 +47,8 @@ class UserFormDialog extends StatefulWidget {
   final String initialPhone;
   final String initialAddress;
   final bool isEdit;
-  final Function(String name, String email, String phone, String address)
-  onSave;
+  final Future<void> Function(
+      String name, String email, String phone, String address) onSave;
 
   @override
   State<UserFormDialog> createState() => _UserFormDialogState();
@@ -131,15 +130,14 @@ class _UserFormDialogState extends State<UserFormDialog> {
           child: const Text('Cancel'),
         ),
         FilledButton(
-          onPressed: () {
+          onPressed: () async {
             if (!formKey.currentState!.validate()) return;
-            widget.onSave(
+            await widget.onSave(
               nameCtrl.text.trim(),
               emailCtrl.text.trim(),
               phoneCtrl.text.trim(),
               addressCtrl.text.trim(),
             );
-            Navigator.pop(context);
           },
           child: Text(widget.isEdit ? 'Update' : 'Add'),
         ),

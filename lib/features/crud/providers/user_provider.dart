@@ -1,30 +1,40 @@
 import 'package:clean_riverpod/features/crud/models/user_model.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:clean_riverpod/providers/user_repository_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-final userProvider = StateNotifierProvider<UserNotifier, List<UserModel>>((
-  ref,
-) {
-  return UserNotifier();
-});
+final userProvider =
+    StreamNotifierProvider.autoDispose<UserNotifier, List<UserModel>>(
+  UserNotifier.new,
+);
 
-class UserNotifier extends StateNotifier<List<UserModel>> {
-  UserNotifier() : super([]);
-
+class UserNotifier extends StreamNotifier<List<UserModel>> {
   final _uuid = const Uuid();
 
-  void addUser(UserModel user) {
-    state = [...state, user.copyWith(id: _uuid.v4())];
+  @override
+  Stream<List<UserModel>> build() {
+    final repository = ref.watch(userRepositoryProvider);
+    return repository.watchAllUsers();
   }
 
-  void updateUser(UserModel updated) {
-    state = [
-      for (final user in state)
-        if (user.id == updated.id) updated else user,
-    ];
+  Future<void> addUser(UserModel user) async {
+    final repository = ref.read(userRepositoryProvider);
+    final newUser = user.copyWith(id: _uuid.v4());
+    await repository.addUser(newUser);
   }
 
-  void deleteUser(String id) {
-    state = state.where((user) => user.id != id).toList();
+  Future<void> updateUser(UserModel updated) async {
+    final repository = ref.read(userRepositoryProvider);
+    await repository.updateUser(updated);
+  }
+
+  Future<void> deleteUser(String id) async {
+    final repository = ref.read(userRepositoryProvider);
+    await repository.deleteUser(id);
+  }
+
+  Future<void> deleteAllUsers() async {
+    final repository = ref.read(userRepositoryProvider);
+    await repository.deleteAllUsers();
   }
 }

@@ -15,15 +15,23 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final users = ref.watch(userProvider);
+    final usersAsync = ref.watch(userProvider);
     final isDark = ref.watch(themeProvider.notifier).isDark;
 
     return Scaffold(
       appBar: _buildAppBar(context, ref, isDark),
       floatingActionButton: _buildFAB(context, ref),
-      body: users.isEmpty
-          ? const EmptyState()
-          : _buildUserList(context, ref, users),
+      body: usersAsync.when(
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (error, stackTrace) => Center(
+          child: Text('Error: $error'),
+        ),
+        data: (users) => users.isEmpty
+            ? const EmptyState()
+            : _buildUserList(context, ref, users),
+      ),
     );
   }
 
@@ -78,8 +86,8 @@ class HomePage extends ConsumerWidget {
         initialPhone: '',
         initialAddress: '',
         isEdit: false,
-        onSave: (name, email, phone, address) {
-          ref.read(userProvider.notifier).addUser(
+        onSave: (name, email, phone, address) async {
+          await ref.read(userProvider.notifier).addUser(
                 UserModel(
                   id: '',
                   name: name,
@@ -88,6 +96,9 @@ class HomePage extends ConsumerWidget {
                   address: address,
                 ),
               );
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
         },
       ),
     );
@@ -106,8 +117,8 @@ class HomePage extends ConsumerWidget {
         initialPhone: user.phone,
         initialAddress: user.address,
         isEdit: true,
-        onSave: (name, email, phone, address) {
-          ref.read(userProvider.notifier).updateUser(
+        onSave: (name, email, phone, address) async {
+          await ref.read(userProvider.notifier).updateUser(
                 user.copyWith(
                   name: name,
                   email: email,
@@ -115,6 +126,9 @@ class HomePage extends ConsumerWidget {
                   address: address,
                 ),
               );
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
         },
       ),
     );
@@ -125,7 +139,12 @@ class HomePage extends ConsumerWidget {
       context: context,
       builder: (ctx) => DeleteConfirmationDialog(
         userName: user.name,
-        onConfirm: () => ref.read(userProvider.notifier).deleteUser(user.id),
+        onConfirm: () async {
+          await ref.read(userProvider.notifier).deleteUser(user.id);
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
+        },
       ),
     );
   }
