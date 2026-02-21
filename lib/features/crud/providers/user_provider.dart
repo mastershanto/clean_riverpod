@@ -1,5 +1,4 @@
 import 'package:clean_riverpod/features/crud/models/user_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:uuid/uuid.dart';
 
