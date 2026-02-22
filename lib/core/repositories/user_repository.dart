@@ -1,66 +1,29 @@
-import 'package:clean_riverpod/core/database/app_database.dart';
-import 'package:clean_riverpod/core/database/tables.dart';
 import 'package:clean_riverpod/features/crud/models/user_model.dart';
-import 'package:drift/drift.dart';
 
-class UserRepository {
-  final AppDatabase _database;
+/// Abstract contract for user data operations.
+///
+/// UI only knows about this interface — never the implementation.
+/// Swap between [MockUserRepository], [LocalUserRepository],
+/// or [ApiUserRepository] without touching a single UI file.
+abstract class UserRepository {
+  /// Get all users (one-shot).
+  Future<List<UserModel>> getAllUsers();
 
-  UserRepository(this._database);
+  /// Get a single user by [id]. Returns `null` if not found.
+  Future<UserModel?> getUserById(String id);
 
-  Future<List<UserModel>> getAllUsers() async {
-    final users = await _database.getAllUsers();
-    return users.map(_toDomainModel).toList();
-  }
+  /// Add a new user.
+  Future<void> addUser(UserModel user);
 
-  Future<UserModel?> getUserById(String id) async {
-    final user = await _database.getUserById(id);
-    return user != null ? _toDomainModel(user) : null;
-  }
+  /// Update an existing user.
+  Future<void> updateUser(UserModel user);
 
-  Future<void> addUser(UserModel userModel) async {
-    final companion = UsersCompanion(
-      id: Value(userModel.id),
-      name: Value(userModel.name),
-      email: Value(userModel.email),
-      phone: Value(userModel.phone),
-      address: Value(userModel.address),
-    );
-    await _database.insertUser(companion);
-  }
+  /// Delete a user by [id].
+  Future<void> deleteUser(String id);
 
-  Future<void> updateUser(UserModel userModel) async {
-    final user = User(
-      id: userModel.id,
-      name: userModel.name,
-      email: userModel.email,
-      phone: userModel.phone,
-      address: userModel.address,
-    );
-    await _database.updateUser(user);
-  }
+  /// Delete all users.
+  Future<void> deleteAllUsers();
 
-  Future<void> deleteUser(String id) async {
-    await _database.deleteUser(id);
-  }
-
-  Future<void> deleteAllUsers() async {
-    await _database.deleteAllUsers();
-  }
-
-  Stream<List<UserModel>> watchAllUsers() {
-    return _database.watchAllUsers().map(
-          (users) => users.map(_toDomainModel).toList(),
-        );
-  }
-
-  UserModel _toDomainModel(User user) {
-    return UserModel(
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      address: user.address,
-    );
-  }
+  /// Reactive stream of all users — rebuilds UI automatically on changes.
+  Stream<List<UserModel>> watchAllUsers();
 }
