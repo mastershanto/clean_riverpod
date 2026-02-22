@@ -2,6 +2,7 @@ import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
 import 'package:clean_riverpod/providers/locale_provider.dart';
 import 'package:clean_riverpod/router/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,6 +26,11 @@ class MyApp extends ConsumerWidget {
 
           // ── Localization ──────────────────────────────────────────────
           locale: locale,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
           supportedLocales: const [
             Locale('en'),
             Locale('bn'),
