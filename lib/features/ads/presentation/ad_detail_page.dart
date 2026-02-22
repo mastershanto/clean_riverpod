@@ -1,3 +1,4 @@
+import 'package:clean_riverpod/features/ads/presentation/widgets/ad_image.dart';
 import 'package:clean_riverpod/features/ads/providers/ad_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,13 +8,20 @@ import 'package:share_plus/share_plus.dart';
 /// Detail page for a single ad.
 ///
 /// Receives [adId] via the route; fetches data reactively from the provider.
-class AdDetailPage extends ConsumerWidget {
+class AdDetailPage extends ConsumerStatefulWidget {
   const AdDetailPage({super.key, required this.adId});
 
   final String adId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AdDetailPage> createState() => _AdDetailPageState();
+}
+
+class _AdDetailPageState extends ConsumerState<AdDetailPage> {
+  int _currentImageIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
     final adsAsync = ref.watch(adProvider);
     final theme = Theme.of(context);
 
@@ -25,7 +33,7 @@ class AdDetailPage extends ConsumerWidget {
         body: Center(child: Text('Error: $e')),
       ),
       data: (ads) {
-        final ad = ads.where((a) => a.id == adId).firstOrNull;
+        final ad = ads.where((a) => a.id == widget.adId).firstOrNull;
         if (ad == null) {
           return Scaffold(
             appBar: AppBar(title: const Text('Ad Not Found')),
@@ -33,25 +41,93 @@ class AdDetailPage extends ConsumerWidget {
           );
         }
 
+        final images = ad.allImages;
+
         return Scaffold(
           body: CustomScrollView(
             slivers: [
-              // ── App Bar with Image ────────────────────────────────
+              // ── App Bar with Image Gallery ────────────────────────
               SliverAppBar(
                 expandedHeight: 250.h,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: Container(
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    child: Center(
-                      child: Icon(
-                        _categoryIcon(ad.category),
-                        size: 80.sp,
-                        color: theme.colorScheme.onSurfaceVariant
-                            .withValues(alpha: 0.3),
-                      ),
-                    ),
-                  ),
+                  background: images.isEmpty
+                      ? Container(
+                          color: theme.colorScheme.surfaceContainerHighest,
+                          child: Center(
+                            child: Icon(
+                              _categoryIcon(ad.category),
+                              size: 80.sp,
+                              color: theme.colorScheme.onSurfaceVariant
+                                  .withValues(alpha: 0.3),
+                            ),
+                          ),
+                        )
+                      : Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            PageView.builder(
+                              itemCount: images.length,
+                              onPageChanged: (i) =>
+                                  setState(() => _currentImageIndex = i),
+                              itemBuilder: (_, i) => AdImage(
+                                imageSource: images[i],
+                                borderRadius: BorderRadius.zero,
+                              ),
+                            ),
+                            // Dot indicators
+                            if (images.length > 1)
+                              Positioned(
+                                bottom: 12.h,
+                                left: 0,
+                                right: 0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: List.generate(
+                                    images.length,
+                                    (i) => AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 250),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 3.w),
+                                      width:
+                                          _currentImageIndex == i ? 20.w : 8.w,
+                                      height: 8.h,
+                                      decoration: BoxDecoration(
+                                        color: _currentImageIndex == i
+                                            ? Colors.white
+                                            : Colors.white54,
+                                        borderRadius:
+                                            BorderRadius.circular(4.r),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            // Image counter
+                            if (images.length > 1)
+                              Positioned(
+                                top: 80.h,
+                                right: 12.w,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8.w, vertical: 4.h),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withValues(alpha: 0.5),
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: Text(
+                                    '${_currentImageIndex + 1}/${images.length}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
                 ),
                 actions: [
                   // Share button

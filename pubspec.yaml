@@ -42,6 +42,9 @@ dependencies:
   # Share
   share_plus: ^10.1.4
   
+  # Image
+  image_picker: ^1.1.2
+  
   
   
 dev_dependencies:

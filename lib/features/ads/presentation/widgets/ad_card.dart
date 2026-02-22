@@ -1,4 +1,5 @@
 import 'package:clean_riverpod/features/ads/models/ad_model.dart';
+import 'package:clean_riverpod/features/ads/presentation/widgets/ad_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,16 +39,23 @@ class AdCard extends StatelessWidget {
             // ── Image + Stock Badge ─────────────────────────────────
             Stack(
               children: [
-                Container(
+                SizedBox(
                   height: 180.h,
                   width: double.infinity,
-                  color: theme.colorScheme.surfaceContainerHighest,
-                  child: Icon(
-                    _categoryIcon(ad.category),
-                    size: 64.sp,
-                    color: theme.colorScheme.onSurfaceVariant
-                        .withValues(alpha: 0.3),
-                  ),
+                  child: ad.allImages.isNotEmpty
+                      ? AdImage(
+                          imageSource: ad.allImages.first,
+                          borderRadius: BorderRadius.zero,
+                        )
+                      : Container(
+                          color: theme.colorScheme.surfaceContainerHighest,
+                          child: Icon(
+                            _categoryIcon(ad.category),
+                            size: 64.sp,
+                            color: theme.colorScheme.onSurfaceVariant
+                                .withValues(alpha: 0.3),
+                          ),
+                        ),
                 ),
                 // Stock badge
                 Positioned(

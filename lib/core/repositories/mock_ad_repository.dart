@@ -18,6 +18,10 @@ class MockAdRepository implements AdRepository {
       price: 185000,
       category: 'Electronics',
       imageUrl: 'https://picsum.photos/seed/iphone/400/300',
+      images: [
+        'https://picsum.photos/seed/iphone2/400/300',
+        'https://picsum.photos/seed/iphone3/400/300',
+      ],
       isInStock: true,
       likesCount: 24,
       isLikedByMe: false,
@@ -78,6 +82,11 @@ class MockAdRepository implements AdRepository {
       price: 8900,
       category: 'Fashion',
       imageUrl: 'https://picsum.photos/seed/shoes/400/300',
+      images: [
+        'https://picsum.photos/seed/shoes2/400/300',
+        'https://picsum.photos/seed/shoes3/400/300',
+        'https://picsum.photos/seed/shoes4/400/300',
+      ],
       isInStock: true,
       likesCount: 31,
       isLikedByMe: true,

@@ -10,7 +10,12 @@ class AdModel {
   final String description;
   final double price;
   final String category;
+
+  /// Primary image URL or local file path.
   final String imageUrl;
+
+  /// Additional images (URLs or local file paths).
+  final List<String> images;
   final bool isInStock;
   final int likesCount;
   final bool isLikedByMe;
@@ -25,11 +30,15 @@ class AdModel {
     required this.price,
     required this.category,
     required this.imageUrl,
+    this.images = const [],
     this.isInStock = true,
     this.likesCount = 0,
     this.isLikedByMe = false,
     required this.createdAt,
   });
+
+  /// All images combined — primary first, then extras.
+  List<String> get allImages => [if (imageUrl.isNotEmpty) imageUrl, ...images];
 
   AdModel copyWith({
     String? id,
@@ -40,6 +49,7 @@ class AdModel {
     double? price,
     String? category,
     String? imageUrl,
+    List<String>? images,
     bool? isInStock,
     int? likesCount,
     bool? isLikedByMe,
@@ -54,6 +64,7 @@ class AdModel {
       price: price ?? this.price,
       category: category ?? this.category,
       imageUrl: imageUrl ?? this.imageUrl,
+      images: images ?? this.images,
       isInStock: isInStock ?? this.isInStock,
       likesCount: likesCount ?? this.likesCount,
       isLikedByMe: isLikedByMe ?? this.isLikedByMe,

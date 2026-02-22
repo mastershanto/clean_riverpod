@@ -76,7 +76,8 @@ class AdsPage extends ConsumerWidget {
       context: context,
       builder: (_) => AdFormDialog(
         isEdit: false,
-        onSave: (title, description, price, category, vendorName) async {
+        onSave: (title, description, price, category, vendorName,
+            imagePaths) async {
           await ref.read(adProvider.notifier).createAd(
                 AdModel(
                   id: '',
@@ -86,10 +87,12 @@ class AdsPage extends ConsumerWidget {
                   description: description,
                   price: price,
                   category: category,
-                  imageUrl: '',
+                  imageUrl: imagePaths.isNotEmpty ? imagePaths.first : '',
+                  images: imagePaths.length > 1 ? imagePaths.sublist(1) : [],
                   createdAt: DateTime.now(),
                 ),
               );
+          if (context.mounted) Navigator.pop(context);
         },
       ),
     );
@@ -105,7 +108,9 @@ class AdsPage extends ConsumerWidget {
         initialPrice: ad.price.toStringAsFixed(0),
         initialCategory: ad.category,
         initialVendorName: ad.vendorName,
-        onSave: (title, description, price, category, vendorName) async {
+        initialImages: ad.allImages,
+        onSave: (title, description, price, category, vendorName,
+            imagePaths) async {
           await ref.read(adProvider.notifier).updateAd(
                 ad.copyWith(
                   title: title,
@@ -113,8 +118,11 @@ class AdsPage extends ConsumerWidget {
                   price: price,
                   category: category,
                   vendorName: vendorName,
+                  imageUrl: imagePaths.isNotEmpty ? imagePaths.first : '',
+                  images: imagePaths.length > 1 ? imagePaths.sublist(1) : [],
                 ),
               );
+          if (context.mounted) Navigator.pop(context);
         },
       ),
     );
