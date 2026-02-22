@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import 'transitions/no_transition_mixin.dart';
 import '../features/crud/presentation/home_page.dart';
+import '../features/ads/presentation/ads_page.dart';
+import '../features/ads/presentation/ad_detail_page.dart';
 import '../features/deshboard/deshboard.dart';
 import '../features/deshboard/widgets/coming_soon_page.dart';
 
@@ -27,6 +29,28 @@ class UserCrudRoute extends GoRouteData with $UserCrudRoute, NoTransitionMixin {
   @override
   Widget buildScreen(BuildContext context, GoRouterState state) =>
       const HomePage(title: 'User Management');
+}
+
+// কোনো এনিমেশন নেই - Ads Marketplace
+@TypedGoRoute<AdsRoute>(path: '/ads')
+class AdsRoute extends GoRouteData with $AdsRoute, NoTransitionMixin {
+  const AdsRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const AdsPage();
+}
+
+// কোনো এনিমেশন নেই - Ad Detail
+@TypedGoRoute<AdDetailRoute>(path: '/ads/:adId')
+class AdDetailRoute extends GoRouteData with $AdDetailRoute, NoTransitionMixin {
+  const AdDetailRoute({required this.adId});
+
+  final String adId;
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      AdDetailPage(adId: adId);
 }
 
 // কোনো এনিমেশন নেই - Analytics

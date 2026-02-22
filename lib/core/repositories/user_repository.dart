@@ -5,6 +5,8 @@ import 'package:clean_riverpod/features/crud/models/user_model.dart';
 /// UI only knows about this interface — never the implementation.
 /// Swap between [MockUserRepository], [LocalUserRepository],
 /// or [ApiUserRepository] without touching a single UI file.
+
+
 abstract class UserRepository {
   /// Get all users (one-shot).
   Future<List<UserModel>> getAllUsers();

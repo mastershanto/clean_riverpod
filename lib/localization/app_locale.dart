@@ -26,6 +26,8 @@ mixin AppLocale {
   static const String notificationsDesc = 'notificationsDesc';
   static const String helpSupport = 'helpSupport';
   static const String helpSupportDesc = 'helpSupportDesc';
+  static const String marketplace = 'marketplace';
+  static const String marketplaceDesc = 'marketplaceDesc';
   static const String moreFeaturesSoon = 'moreFeaturesSoon';
 
   // AppBar actions
@@ -73,6 +75,8 @@ mixin AppLocale {
     notificationsDesc: 'Check notifications',
     helpSupport: 'Help & Support',
     helpSupportDesc: 'Get help and support',
+    marketplace: 'Marketplace',
+    marketplaceDesc: 'Create, manage & browse ads',
     moreFeaturesSoon: 'More features coming soon!',
     switchToLightMode: 'Switch to Light Mode',
     switchToDarkMode: 'Switch to Dark Mode',
@@ -115,6 +119,8 @@ mixin AppLocale {
     notificationsDesc: 'নোটিফিকেশন দেখুন',
     helpSupport: 'সাহায্য ও সাপোর্ট',
     helpSupportDesc: 'সাহায্য এবং সাপোর্ট পান',
+    marketplace: 'মার্কেটপ্লেস',
+    marketplaceDesc: 'বিজ্ঞাপন তৈরি, পরিচালনা ও ব্রাউজ করুন',
     moreFeaturesSoon: 'আরো ফিচার শীঘ্রই আসছে!',
     switchToLightMode: 'লাইট মোডে পরিবর্তন করুন',
     switchToDarkMode: 'ডার্ক মোডে পরিবর্তন করুন',

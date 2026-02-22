@@ -21,7 +21,7 @@ class MockUserRepository implements UserRepository {
       phone: '+8801700000001',
       address: 'Dhaka, Bangladesh',
     ),
-    const UserModel(
+    const UserModel( 
       id: 'mock-2',
       name: 'Rahim Uddin',
       email: 'rahim@example.com',

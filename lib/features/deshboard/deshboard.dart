@@ -115,6 +115,15 @@ class Dashboard extends ConsumerWidget {
                   onTap: () => const UserCrudRoute().push(context),
                 ),
 
+                // Marketplace / Ads Card
+                FeatureCard(
+                  title: tr(AppLocale.marketplace),
+                  description: tr(AppLocale.marketplaceDesc),
+                  icon: Icons.campaign_outlined,
+                  color: const Color(0xFFE11D48),
+                  onTap: () => const AdsRoute().push(context),
+                ),
+
                 // Analytics Card
                 FeatureCard(
                   title: tr(AppLocale.analytics),

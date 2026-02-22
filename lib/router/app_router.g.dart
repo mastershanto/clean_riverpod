@@ -11,6 +11,8 @@ part of 'app_router.dart';
 List<RouteBase> get $appRoutes => [
       $dashboardRoute,
       $userCrudRoute,
+      $adsRoute,
+      $adDetailRoute,
       $analyticsRoute,
       $settingsRoute,
       $profileRoute,
@@ -52,6 +54,54 @@ mixin $UserCrudRoute on GoRouteData {
   static UserCrudRoute _fromState(GoRouterState state) => const UserCrudRoute();
 
   String get _location => GoRouteData.$location('/user-crud');
+
+  void go(BuildContext context) => context.go(_location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(_location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(_location);
+
+  void replace(BuildContext context) => context.replace(_location);
+}
+
+// ── AdsRoute ──────────────────────────────────────────────────────────────
+
+RouteBase get $adsRoute => GoRouteData.$route(
+      path: '/ads',
+      factory: $AdsRoute._fromState,
+    );
+
+mixin $AdsRoute on GoRouteData {
+  static AdsRoute _fromState(GoRouterState state) => const AdsRoute();
+
+  String get _location => GoRouteData.$location('/ads');
+
+  void go(BuildContext context) => context.go(_location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(_location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(_location);
+
+  void replace(BuildContext context) => context.replace(_location);
+}
+
+// ── AdDetailRoute ─────────────────────────────────────────────────────────
+
+RouteBase get $adDetailRoute => GoRouteData.$route(
+      path: '/ads/:adId',
+      factory: $AdDetailRoute._fromState,
+    );
+
+mixin $AdDetailRoute on GoRouteData {
+  static AdDetailRoute _fromState(GoRouterState state) =>
+      AdDetailRoute(adId: state.pathParameters['adId']!);
+
+  String get _location =>
+      GoRouteData.$location('/ads/${Uri.encodeComponent(adId)}');
+
+  abstract final String adId;
 
   void go(BuildContext context) => context.go(_location);
 
