@@ -1,4 +1,4 @@
-import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
+import 'package:clean_riverpod/providers/theme_provider.dart';
 import 'package:clean_riverpod/providers/locale_provider.dart';
 import 'package:clean_riverpod/router/app_router.dart';
 import 'package:flutter/material.dart';

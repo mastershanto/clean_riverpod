@@ -1,12 +1,11 @@
-import 'package:clean_riverpod/features/auth/repositories/auth_repository%20copy.dart';
-import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
+import 'package:clean_riverpod/providers/theme_provider.dart';
 import 'package:clean_riverpod/features/deshboard/widgets/feature_card.dart';
 import 'package:clean_riverpod/localization/app_locale.dart';
 import 'package:clean_riverpod/localization/app_localization_ext.dart';
 import 'package:clean_riverpod/providers/auth_provider.dart';
 import 'package:clean_riverpod/providers/locale_provider.dart';
-import 'package:clean_riverpod/router/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -76,9 +75,8 @@ class Dashboard extends ConsumerWidget {
                             ],
                           ),
                           onTap: () async {
-                            // লগআউট করুন
                             await ref
-                                .read(authControllerProvider.notifier)
+                                .read(currentUserProvider.notifier)
                                 .logout();
                           },
                         ),
@@ -190,7 +188,7 @@ class Dashboard extends ConsumerWidget {
                   description: tr(AppLocale.userCrudDesc),
                   icon: Icons.people_outline,
                   color: const Color(0xFF7C3AED),
-                  onTap: () => const UserCrudRoute().push(context),
+                  onTap: () => context.go('/user-crud'),
                 ),
 
                 // Marketplace / Ads Card
@@ -199,7 +197,7 @@ class Dashboard extends ConsumerWidget {
                   description: tr(AppLocale.marketplaceDesc),
                   icon: Icons.campaign_outlined,
                   color: const Color(0xFFE11D48),
-                  onTap: () => const AdsRoute().push(context),
+                  onTap: () => context.go('/ads'),
                 ),
 
                 // Analytics Card
@@ -208,7 +206,7 @@ class Dashboard extends ConsumerWidget {
                   description: tr(AppLocale.analyticsDesc),
                   icon: Icons.analytics_outlined,
                   color: const Color(0xFF0EA5E9),
-                  onTap: () => const AnalyticsRoute().push(context),
+                  onTap: () => context.go('/analytics'),
                 ),
 
                 // Settings Card
@@ -217,7 +215,7 @@ class Dashboard extends ConsumerWidget {
                   description: tr(AppLocale.settingsDesc),
                   icon: Icons.settings_outlined,
                   color: const Color(0xFF10B981),
-                  onTap: () => const SettingsRoute().push(context),
+                  onTap: () => context.go('/settings'),
                 ),
 
                 // Profile Card
@@ -226,7 +224,7 @@ class Dashboard extends ConsumerWidget {
                   description: tr(AppLocale.profileDesc),
                   icon: Icons.account_circle_outlined,
                   color: const Color(0xFFF59E0B),
-                  onTap: () => const ProfileRoute().push(context),
+                  onTap: () => context.go('/profile'),
                 ),
 
                 // Notifications Card
@@ -235,7 +233,7 @@ class Dashboard extends ConsumerWidget {
                   description: tr(AppLocale.notificationsDesc),
                   icon: Icons.notifications_outlined,
                   color: const Color(0xFFEC4899),
-                  onTap: () => const NotificationsRoute().push(context),
+                  onTap: () => context.go('/notifications'),
                 ),
 
                 // Help Card
@@ -244,7 +242,7 @@ class Dashboard extends ConsumerWidget {
                   description: tr(AppLocale.helpSupportDesc),
                   icon: Icons.help_outline,
                   color: const Color(0xFF8B5CF6),
-                  onTap: () => const HelpRoute().push(context),
+                  onTap: () => context.go('/help'),
                 ),
               ],
             ),

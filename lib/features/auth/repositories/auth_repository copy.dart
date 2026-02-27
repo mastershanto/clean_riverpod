@@ -1,34 +1,32 @@
 import 'dart:async';
 
+import 'package:clean_riverpod/features/auth/models/auth_models.dart';
 import 'package:clean_riverpod/features/auth/repositories/iauth_repository.dart';
-import 'package:clean_riverpod/features/crud/models/user_model.dart';
 import 'package:clean_riverpod/providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authControllerProvider =
-    AsyncNotifierProvider<AuthController, UserModel?>(
+    AsyncNotifierProvider<AuthController, AuthResponse?>(
   () {
     return AuthController();
   },
 );
 
-class AuthController extends AsyncNotifier<UserModel?> {
+class AuthController extends AsyncNotifier<AuthResponse?> {
   @override
-  FutureOr<UserModel?> build() => null; // শুরুতে স্টেট খালি থাকবে
+  FutureOr<AuthResponse?> build() => null; // শুরুতে স্টেট খালি থাকবে
 
   Future<void> signIn(String email, String password) async {
-    state = const AsyncLoading(); // লোডিং শুরু
+    state = const AsyncLoading();
 
-    // রিপোজিটরি থেকে ডেটা আনা
     final repo = ref.read(authRepositoryProvider);
 
     state = await AsyncValue.guard(() async {
-      final user = await repo.login(email, password);
-      if (user != null) {
-        // ইউজার লগইন সফল হলে currentUserProvider আপডেট করুন
-        ref.read(currentUserProvider.notifier).state = user;
+      final response = await repo.signIn(email, password);
+      if (response != null) {
+        ref.read(currentUserProvider.notifier).setUser(response);
       }
-      return user;
+      return response;
     });
   }
 
@@ -39,7 +37,6 @@ class AuthController extends AsyncNotifier<UserModel?> {
       final repo = ref.read(authRepositoryProvider);
       await repo.logout();
 
-      // লগআউট সফল হলে state ক্লিয়ার করুন
       ref.read(currentUserProvider.notifier).state = null;
       state = const AsyncValue.data(null);
     } catch (e) {
