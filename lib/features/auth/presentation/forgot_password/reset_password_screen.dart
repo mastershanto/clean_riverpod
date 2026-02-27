@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:clean_riverpod/features/auth/controllers/auth_controller.dart';
+import 'package:clean_riverpod/features/auth/presentation/controllers/auth_controllers.dart';
+import 'package:clean_riverpod/features/auth/domain/entities/auth_entities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,8 +56,12 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   @override
   void dispose() {
     _timer?.cancel();
-    for (final c in _otpCtrls) { c.dispose(); }
-    for (final f in _otpFocusNodes) { f.dispose(); }
+    for (final c in _otpCtrls) {
+      c.dispose();
+    }
+    for (final f in _otpFocusNodes) {
+      f.dispose();
+    }
     _newPassCtrl.dispose();
     _confirmCtrl.dispose();
     super.dispose();
@@ -74,13 +79,14 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
 
   Future<void> _resetPassword() async {
     if (!_formKey.currentState!.validate()) return;
-    final ok = await ref
-        .read(forgotPasswordControllerProvider.notifier)
-        .resetPassword(
-          email: widget.email,
-          otp: _otpValue,
-          newPassword: _newPassCtrl.text.trim(),
-        );
+    final ok =
+        await ref.read(forgotPasswordControllerProvider.notifier).resetPassword(
+              ResetPasswordParams(
+                email: widget.email,
+                otp: _otpValue,
+                newPassword: _newPassCtrl.text.trim(),
+              ),
+            );
     if (ok && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Password reset successfully!')));
@@ -91,7 +97,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   Future<void> _resend() async {
     await ref
         .read(forgotPasswordControllerProvider.notifier)
-        .resendOtp(widget.email);
+        .sendOtp(widget.email);
     _startTimer();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -178,7 +184,6 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 }),
               ),
               const SizedBox(height: 16),
-
               if (state.hasValue &&
                   state.value == false &&
                   !state.isLoading) ...[
@@ -194,7 +199,6 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 ),
                 const SizedBox(height: 12),
               ],
-
               FilledButton(
                 onPressed: state.isLoading ? null : _verifyOtp,
                 style: FilledButton.styleFrom(
@@ -205,11 +209,9 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                         width: 20,
                         child: CircularProgressIndicator(
                             strokeWidth: 2, color: Colors.white))
-                    : const Text('Verify Code',
-                        style: TextStyle(fontSize: 16)),
+                    : const Text('Verify Code', style: TextStyle(fontSize: 16)),
               ),
               const SizedBox(height: 16),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -248,13 +250,11 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                           icon: Icon(_obscure
                               ? Icons.visibility_off
                               : Icons.visibility),
-                          onPressed: () =>
-                              setState(() => _obscure = !_obscure),
+                          onPressed: () => setState(() => _obscure = !_obscure),
                         ),
                       ),
-                      validator: (v) => v == null || v.length < 6
-                          ? 'Min 6 characters'
-                          : null,
+                      validator: (v) =>
+                          v == null || v.length < 6 ? 'Min 6 characters' : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -277,7 +277,6 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                           : null,
                     ),
                     const SizedBox(height: 24),
-
                     if (state.hasError) ...[
                       Container(
                         padding: const EdgeInsets.all(12),
@@ -291,7 +290,6 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                       ),
                       const SizedBox(height: 12),
                     ],
-
                     FilledButton(
                       onPressed: state.isLoading ? null : _resetPassword,
                       style: FilledButton.styleFrom(

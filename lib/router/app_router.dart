@@ -1,8 +1,8 @@
-import 'package:clean_riverpod/features/auth/presentations/forgot_password/forgot_password_screen.dart';
-import 'package:clean_riverpod/features/auth/presentations/forgot_password/reset_password_screen.dart';
-import 'package:clean_riverpod/features/auth/presentations/login/presentation/ui/login_screen.dart';
-import 'package:clean_riverpod/features/auth/presentations/otp_verify/otp_verify_screen.dart';
-import 'package:clean_riverpod/features/auth/presentations/signup/presentation/ui/singup_screen.dart';
+import 'package:clean_riverpod/features/auth/presentation/forgot_password/forgot_password_screen.dart';
+import 'package:clean_riverpod/features/auth/presentation/forgot_password/reset_password_screen.dart';
+import 'package:clean_riverpod/features/auth/presentation/login/login_screen.dart';
+import 'package:clean_riverpod/features/auth/presentation/otp_verify/otp_verify_screen.dart';
+import 'package:clean_riverpod/features/auth/presentation/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -55,7 +55,7 @@ final goRouter = GoRouter(
       path: '/',
       pageBuilder: (ctx, s) => _noTransition(ctx, s, const Dashboard()),
     ),
- 
+
     GoRoute(
       path: '/analytics',
       pageBuilder: (ctx, s) =>

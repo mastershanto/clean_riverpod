@@ -1,5 +1,5 @@
-import 'package:clean_riverpod/features/auth/controllers/auth_controller.dart';
-import 'package:clean_riverpod/features/auth/models/auth_models.dart';
+import 'package:clean_riverpod/features/auth/presentation/controllers/auth_controllers.dart';
+import 'package:clean_riverpod/features/auth/domain/entities/auth_entities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +34,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     final ok = await ref.read(signUpControllerProvider.notifier).signUp(
-          SignUpRequest(
+          SignUpParams(
             name: _nameCtrl.text.trim(),
             email: _emailCtrl.text.trim(),
             password: _passCtrl.text.trim(),
@@ -83,8 +83,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 Text(
                   'Sign up to get started',
                   textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium
-                      ?.copyWith(color: Colors.grey),
+                  style:
+                      theme.textTheme.bodyMedium?.copyWith(color: Colors.grey),
                 ),
                 const SizedBox(height: 32),
                 // Full Name
@@ -109,8 +109,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     prefixIcon: Icon(Icons.email_outlined),
                     border: OutlineInputBorder(),
                   ),
-                  validator: (v) =>
-                      v == null || !v.contains('@') ? 'Enter a valid email' : null,
+                  validator: (v) => v == null || !v.contains('@')
+                      ? 'Enter a valid email'
+                      : null,
                 ),
                 const SizedBox(height: 14),
                 // Phone

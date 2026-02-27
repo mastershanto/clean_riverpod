@@ -1,9 +1,9 @@
-import 'package:clean_riverpod/providers/theme_provider.dart';
 import 'package:clean_riverpod/features/deshboard/widgets/feature_card.dart';
 import 'package:clean_riverpod/localization/app_locale.dart';
 import 'package:clean_riverpod/localization/app_localization_ext.dart';
-import 'package:clean_riverpod/providers/auth_provider.dart';
+import 'package:clean_riverpod/features/auth/providers/auth_providers.dart';
 import 'package:clean_riverpod/providers/locale_provider.dart';
+import 'package:clean_riverpod/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

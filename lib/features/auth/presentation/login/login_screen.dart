@@ -1,4 +1,4 @@
-import 'package:clean_riverpod/features/auth/controllers/auth_controller.dart';
+import 'package:clean_riverpod/features/auth/presentation/controllers/auth_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,14 +26,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     final ok = await ref
-        .read(signInControllerProvider.notifier)
+        .read(loginControllerProvider.notifier)
         .signIn(_emailCtrl.text.trim(), _passCtrl.text.trim());
     if (ok && mounted) context.go('/');
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(signInControllerProvider);
+    final state = ref.watch(loginControllerProvider);
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
@@ -59,7 +59,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Text(
                   'Sign in to continue',
                   textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey),
+                  style:
+                      theme.textTheme.bodyMedium?.copyWith(color: Colors.grey),
                 ),
                 const SizedBox(height: 40),
                 // Email
@@ -71,8 +72,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     prefixIcon: Icon(Icons.email_outlined),
                     border: OutlineInputBorder(),
                   ),
-                  validator: (v) =>
-                      v == null || !v.contains('@') ? 'Enter a valid email' : null,
+                  validator: (v) => v == null || !v.contains('@')
+                      ? 'Enter a valid email'
+                      : null,
                 ),
                 const SizedBox(height: 16),
                 // Password
@@ -84,7 +86,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     prefixIcon: const Icon(Icons.lock_outlined),
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
-                      icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
+                      icon: Icon(
+                          _obscure ? Icons.visibility_off : Icons.visibility),
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
                   ),
@@ -117,7 +120,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 12),
                 ],
-                if (state.hasValue && state.value == null && !state.isLoading) ...[
+                if (state.hasValue &&
+                    state.value == null &&
+                    !state.isLoading) ...[
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(

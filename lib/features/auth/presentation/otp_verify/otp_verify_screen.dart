@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:clean_riverpod/features/auth/controllers/auth_controller.dart';
+import 'package:clean_riverpod/features/auth/presentation/controllers/auth_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,8 +45,12 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen> {
   @override
   void dispose() {
     _timer?.cancel();
-    for (final c in _controllers) { c.dispose(); }
-    for (final f in _focusNodes) { f.dispose(); }
+    for (final c in _controllers) {
+      c.dispose();
+    }
+    for (final f in _focusNodes) {
+      f.dispose();
+    }
     super.dispose();
   }
 
@@ -60,12 +64,12 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen> {
     }
     final ok = await ref
         .read(otpControllerProvider.notifier)
-        .verify(widget.email, _otp);
+        .verifyOtp(widget.email, _otp);
     if (ok && mounted) context.go('/');
   }
 
   Future<void> _resend() async {
-    await ref.read(otpControllerProvider.notifier).resendOtp(widget.email);
+    await ref.read(signUpControllerProvider.notifier).sendOtp(widget.email);
     _startTimer();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
