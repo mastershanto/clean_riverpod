@@ -78,6 +78,7 @@ class Dashboard extends ConsumerWidget {
                             await ref
                                 .read(currentUserProvider.notifier)
                                 .logout();
+                            GoRouter.of(context).go('/login');
                           },
                         ),
                       ],

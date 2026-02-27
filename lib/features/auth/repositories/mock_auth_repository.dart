@@ -121,6 +121,26 @@ class MockAuthRepository implements IAuthRepository {
   }
 
   @override
+  Future<bool> resendSignUpOtp(String email) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (!_users.containsKey(email)) {
+      log(
+        '❌ Resend OTP failed: User not found',
+        name: 'MockAuthRepository',
+      );
+      throw Exception('User not found');
+    }
+
+    _otpStore[email] = _mockOtp;
+    log(
+      '🔄 [MOCK OTP RESENT] email=$email | otp=$_mockOtp',
+      name: 'MockAuthRepository',
+    );
+    return true;
+  }
+
+  @override
   Future<AuthResponse?> verifySignUpOtp(OtpVerificationRequest request) async {
     await Future.delayed(const Duration(milliseconds: 600));
     log(

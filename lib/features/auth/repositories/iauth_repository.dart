@@ -15,6 +15,9 @@ abstract class IAuthRepository {
   /// Send OTP to email for the specified flow type
   Future<bool> sendOtp(String email, OtpType type);
 
+  /// Resend OTP for sign-up flow
+  Future<bool> resendSignUpOtp(String email);
+
   /// Verify OTP and complete sign-up registration
   /// Returns auth response with access token
   Future<AuthResponse?> verifySignUpOtp(OtpVerificationRequest request);

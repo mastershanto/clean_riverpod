@@ -64,6 +64,21 @@ class RealAuthRepository implements IAuthRepository {
   }
 
   @override
+  Future<bool> resendSignUpOtp(String email) async {
+    // TODO: Implement real API call
+    // Example:
+    // final response = await _httpClient.post(
+    //   '$_baseUrl/auth/resend-signup-otp',
+    //   data: {'email': email},
+    // );
+    // return response.statusCode == 200;
+
+    throw UnimplementedError(
+      'Real API not implemented. Connect your backend endpoint.',
+    );
+  }
+
+  @override
   Future<AuthResponse?> verifySignUpOtp(OtpVerificationRequest request) async {
     // TODO: Implement real API call
     // Example:
