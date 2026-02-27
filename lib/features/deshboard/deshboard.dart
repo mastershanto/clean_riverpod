@@ -1,7 +1,9 @@
+import 'package:clean_riverpod/features/auth/repositories/auth_repository%20copy.dart';
 import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
 import 'package:clean_riverpod/features/deshboard/widgets/feature_card.dart';
 import 'package:clean_riverpod/localization/app_locale.dart';
 import 'package:clean_riverpod/localization/app_localization_ext.dart';
+import 'package:clean_riverpod/providers/auth_provider.dart';
 import 'package:clean_riverpod/providers/locale_provider.dart';
 import 'package:clean_riverpod/router/app_router.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,75 @@ class Dashboard extends ConsumerWidget {
         centerTitle: true,
         elevation: 0,
         actions: [
+          // ── User Profile & Logout ─────────────────────────────────────
+          Consumer(
+            builder: (context, ref, _) {
+              final currentUser = ref.watch(currentUserProvider);
+              return currentUser != null
+                  ? PopupMenuButton<String>(
+                      position: PopupMenuPosition.under,
+                      itemBuilder: (context) => <PopupMenuEntry<String>>[
+                        PopupMenuItem(
+                          enabled: false,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                currentUser.name,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                currentUser.email,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const PopupMenuDivider(),
+                        PopupMenuItem(
+                          value: 'logout',
+                          child: const Row(
+                            children: [
+                              Icon(Icons.logout, size: 20),
+                              SizedBox(width: 8),
+                              Text('Logout'),
+                            ],
+                          ),
+                          onTap: () async {
+                            // লগআউট করুন
+                            await ref
+                                .read(authControllerProvider.notifier)
+                                .logout();
+                          },
+                        ),
+                      ],
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: CircleAvatar(
+                          radius: 16.r,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          child: Text(
+                            currentUser.name[0].toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(width: 8.w);
+            },
+          ),
           // ── Language Toggle ───────────────────────────────────────────
           Tooltip(
             message: isBangla
@@ -78,22 +149,29 @@ class Dashboard extends ConsumerWidget {
             // Header
             Padding(
               padding: EdgeInsets.only(bottom: 24.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    tr(AppLocale.welcomeBack),
-                    style: TextStyle(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    tr(AppLocale.selectFeature),
-                    style: TextStyle(fontSize: 14.sp, color: Colors.grey),
-                  ),
-                ],
+              child: Consumer(
+                builder: (context, ref, _) {
+                  final currentUser = ref.watch(currentUserProvider);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        currentUser != null
+                            ? "${tr(AppLocale.welcomeBack)}, ${currentUser.name}!"
+                            : tr(AppLocale.welcomeBack),
+                        style: TextStyle(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        tr(AppLocale.selectFeature),
+                        style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
 

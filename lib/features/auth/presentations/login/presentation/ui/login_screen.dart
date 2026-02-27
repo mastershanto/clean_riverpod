@@ -17,29 +17,38 @@ class LoginScreen extends ConsumerWidget {
         child: Column(
           children: [
             const TextField(decoration: InputDecoration(labelText: "Email")),
-            const TextField(decoration: InputDecoration(labelText: "Password"), obscureText: true),
+            const TextField(
+                decoration: InputDecoration(labelText: "Password"),
+                obscureText: true),
             const SizedBox(height: 20),
-            
+
             // স্টেটের ওপর ভিত্তি করে বাটন দেখানো
             authState.maybeWhen(
               loading: () => const CircularProgressIndicator(),
               orElse: () => ElevatedButton(
                 onPressed: () {
                   // কন্ট্রোলার কল করা
-                  ref.read(authControllerProvider.notifier).signIn(
-                    "test@test.com", 
-                    "123456"
-                  );
+                  ref
+                      .read(authControllerProvider.notifier)
+                      .signIn("test@test.com", "123456");
                 },
                 child: const Text("Login"),
               ),
             ),
 
             // এরর বা সাকসেস মেসেজ দেখানো
-            if (authState.hasValue && authState.value == true)
-              const Text("Login Successful!", style: TextStyle(color: Colors.green)),
-            if (authState.hasValue && authState.value == false)
-              const Text("Invalid Credentials", style: TextStyle(color: Colors.red)),
+            authState.maybeWhen(
+              data: (user) {
+                if (user != null) {
+                  return const Text("Login Successful!",
+                      style: TextStyle(color: Colors.green));
+                } else {
+                  return const Text("Invalid Credentials",
+                      style: TextStyle(color: Colors.red));
+                }
+              },
+              orElse: () => const SizedBox.shrink(),
+            ),
           ],
         ),
       ),
