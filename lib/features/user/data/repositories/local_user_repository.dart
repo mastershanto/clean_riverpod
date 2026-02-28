@@ -12,13 +12,13 @@ class LocalUserRepository implements IUserRepository {
   @override
   Future<List<UserEntity>> getAllUsers() async {
     final users = await _database.getAllUsers();
-    return users.map((u) => UserModel.fromDriftUser(u)).toList();
+    return users.map((u) => UserModel.fromDriftUser(u).toEntity()).toList();
   }
 
   @override
   Future<UserEntity?> getUserById(String id) async {
     final user = await _database.getUserById(id);
-    return user != null ? UserModel.fromDriftUser(user) : null;
+    return user != null ? UserModel.fromDriftUser(user).toEntity() : null;
   }
 
   @override

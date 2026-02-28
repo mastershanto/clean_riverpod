@@ -2,13 +2,19 @@ import 'package:drift/drift.dart';
 import '../../../../core/database/app_database.dart';
 import '../../domain/entities/user_entity.dart';
 
-class UserModel extends UserEntity {
+class UserModel {
+  final String id;
+  final String name;
+  final String email;
+  final String phone;
+  final String address;
+
   const UserModel({
-    required super.id,
-    required super.name,
-    required super.email,
-    required super.phone,
-    required super.address,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.address,
   });
 
   /// Factory constructor to create a [UserModel] from a JSON object.
@@ -33,7 +39,18 @@ class UserModel extends UserEntity {
     };
   }
 
-  /// Helper to map an entity into our model explicitly if needed
+  /// Convert UserModel to UserEntity (domain layer)
+  UserEntity toEntity() {
+    return UserEntity(
+      id: id,
+      name: name,
+      email: email,
+      phone: phone,
+      address: address,
+    );
+  }
+
+  /// Create UserModel from UserEntity
   factory UserModel.fromEntity(UserEntity entity) {
     return UserModel(
       id: entity.id,

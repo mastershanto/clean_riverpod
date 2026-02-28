@@ -27,14 +27,14 @@ class MockUserRepository implements IUserRepository {
   Future<List<UserEntity>> getAllUsers() async {
     // Simulating API network call delay
     await Future.delayed(_mockDelay);
-    return List<UserEntity>.from(_users);
+    return _users.map((u) => u.toEntity()).toList();
   }
 
   @override
   Future<UserEntity?> getUserById(String id) async {
     await Future.delayed(_mockDelay);
     try {
-      return _users.firstWhere((user) => user.id == id);
+      return _users.firstWhere((user) => user.id == id).toEntity();
     } catch (e) {
       // User not found
       return null;
@@ -60,7 +60,7 @@ class MockUserRepository implements IUserRepository {
 
     _users.add(newUserModel);
 
-    return newUserModel;
+    return newUserModel.toEntity();
   }
 
   @override
@@ -71,7 +71,7 @@ class MockUserRepository implements IUserRepository {
     if (index >= 0) {
       final updatedModel = UserModel.fromEntity(user);
       _users[index] = updatedModel;
-      return updatedModel;
+      return updatedModel.toEntity();
     } else {
       throw Exception('User not found. Could not update.');
     }
