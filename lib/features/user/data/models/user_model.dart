@@ -1,3 +1,5 @@
+import 'package:drift/drift.dart';
+import '../../../../core/database/app_database.dart';
 import '../../domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
@@ -39,6 +41,39 @@ class UserModel extends UserEntity {
       email: entity.email,
       phone: entity.phone,
       address: entity.address,
+    );
+  }
+
+  /// Factory to create from Drift User (from local database)
+  factory UserModel.fromDriftUser(User driftUser) {
+    return UserModel(
+      id: driftUser.id,
+      name: driftUser.name,
+      email: driftUser.email,
+      phone: driftUser.phone,
+      address: driftUser.address,
+    );
+  }
+
+  /// Convert to Drift User for database operations
+  User toDriftUser() {
+    return User(
+      id: id,
+      name: name,
+      email: email,
+      phone: phone,
+      address: address,
+    );
+  }
+
+  /// Convert to Drift UsersCompanion for insertions
+  UsersCompanion toCompanion() {
+    return UsersCompanion(
+      id: Value(id),
+      name: Value(name),
+      email: Value(email),
+      phone: Value(phone),
+      address: Value(address),
     );
   }
 }
