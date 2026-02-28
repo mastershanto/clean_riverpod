@@ -8,78 +8,153 @@ import 'package:go_router/go_router.dart';
 
 import '../features/deshboard/deshboard.dart';
 import '../features/deshboard/widgets/coming_soon_page.dart';
+import 'transitions/fade_transition_mixin.dart';
+import 'transitions/no_transition_mixin.dart';
+import 'transitions/slide_transition_mixin.dart';
+
+part 'app_router.g.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Helper: no-animation page builder
-// ─────────────────────────────────────────────────────────────────────────────
-Page<void> _noTransition(BuildContext _, GoRouterState state, Widget child) =>
-    NoTransitionPage(key: state.pageKey, child: child);
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Router
+// GoRouter Configuration
 // ─────────────────────────────────────────────────────────────────────────────
 final goRouter = GoRouter(
   initialLocation: '/auth',
-  routes: [
-    // ── Auth ─────────────────────────────────────────────────────────────────
-    GoRoute(
-      path: '/auth',
-      pageBuilder: (ctx, s) => _noTransition(ctx, s, const LoginScreen()),
-    ),
-    GoRoute(
-      path: '/auth/signup',
-      pageBuilder: (ctx, s) => _noTransition(ctx, s, const SignUpScreen()),
-    ),
-    GoRoute(
-      path: '/auth/signup-verify',
-      pageBuilder: (ctx, s) {
-        final email = s.uri.queryParameters['email'] ?? '';
-        return _noTransition(ctx, s, OtpVerifyScreen(email: email));
-      },
-    ),
-    GoRoute(
-      path: '/auth/forgot-password',
-      pageBuilder: (ctx, s) =>
-          _noTransition(ctx, s, const ForgotPasswordScreen()),
-    ),
-    GoRoute(
-      path: '/auth/forgot-otp',
-      pageBuilder: (ctx, s) {
-        final email = s.uri.queryParameters['email'] ?? '';
-        return _noTransition(ctx, s, ResetPasswordScreen(email: email));
-      },
-    ),
-
-    // ── App ──────────────────────────────────────────────────────────────────
-    GoRoute(
-      path: '/',
-      pageBuilder: (ctx, s) => _noTransition(ctx, s, const Dashboard()),
-    ),
-
-    GoRoute(
-      path: '/analytics',
-      pageBuilder: (ctx, s) =>
-          _noTransition(ctx, s, const ComingSoonPage(title: 'Analytics')),
-    ),
-    GoRoute(
-      path: '/settings',
-      pageBuilder: (ctx, s) =>
-          _noTransition(ctx, s, const ComingSoonPage(title: 'Settings')),
-    ),
-    GoRoute(
-      path: '/profile',
-      pageBuilder: (ctx, s) =>
-          _noTransition(ctx, s, const ComingSoonPage(title: 'Profile')),
-    ),
-    GoRoute(
-      path: '/notifications',
-      pageBuilder: (ctx, s) =>
-          _noTransition(ctx, s, const ComingSoonPage(title: 'Notifications')),
-    ),
-    GoRoute(
-      path: '/help',
-      pageBuilder: (ctx, s) =>
-          _noTransition(ctx, s, const ComingSoonPage(title: 'Help & Support')),
-    ),
-  ],
+  routes: $appRoutes,
 );
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Auth Routes
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Login Screen - No Animation
+@TypedGoRoute<AuthRoute>(
+  path: '/auth',
+  routes: [
+    TypedGoRoute<SignUpRoute>(path: 'signup'),
+    TypedGoRoute<OtpVerifyRoute>(path: 'signup-verify'),
+    TypedGoRoute<ForgotPasswordRoute>(path: 'forgot-password'),
+    TypedGoRoute<ResetPasswordRoute>(path: 'forgot-otp'),
+  ],
+)
+class AuthRoute extends GoRouteData with $AuthRoute, NoTransitionMixin {
+  const AuthRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const LoginScreen();
+}
+
+// Signup Screen - Slide Animation
+class SignUpRoute extends GoRouteData with $SignUpRoute, SlideTransitionMixin {
+  const SignUpRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const SignUpScreen();
+}
+
+// OTP Verify Screen - Slide Animation with email parameter
+class OtpVerifyRoute extends GoRouteData
+    with $OtpVerifyRoute, SlideTransitionMixin {
+  const OtpVerifyRoute({required this.email});
+
+  final String email;
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      OtpVerifyScreen(email: email);
+}
+
+// Forgot Password Screen - Slide Animation
+class ForgotPasswordRoute extends GoRouteData
+    with $ForgotPasswordRoute, SlideTransitionMixin {
+  const ForgotPasswordRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const ForgotPasswordScreen();
+}
+
+// Reset Password Screen - Slide Animation with email parameter
+class ResetPasswordRoute extends GoRouteData
+    with $ResetPasswordRoute, SlideTransitionMixin {
+  const ResetPasswordRoute({required this.email});
+
+  final String email;
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      ResetPasswordScreen(email: email);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// App Routes
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Dashboard - No Animation
+@TypedGoRoute<DashboardRoute>(
+  path: '/',
+  routes: [
+    TypedGoRoute<AnalyticsRoute>(path: 'analytics'),
+    TypedGoRoute<SettingsRoute>(path: 'settings'),
+    TypedGoRoute<ProfileRoute>(path: 'profile'),
+    TypedGoRoute<NotificationsRoute>(path: 'notifications'),
+    TypedGoRoute<HelpRoute>(path: 'help'),
+  ],
+)
+class DashboardRoute extends GoRouteData
+    with $DashboardRoute, NoTransitionMixin {
+  const DashboardRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const Dashboard();
+}
+
+// Analytics - Fade Animation
+class AnalyticsRoute extends GoRouteData
+    with $AnalyticsRoute, FadeTransitionMixin {
+  const AnalyticsRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const ComingSoonPage(title: 'Analytics');
+}
+
+// Settings - Fade Animation
+class SettingsRoute extends GoRouteData
+    with $SettingsRoute, FadeTransitionMixin {
+  const SettingsRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const ComingSoonPage(title: 'Settings');
+}
+
+// Profile - Fade Animation
+class ProfileRoute extends GoRouteData with $ProfileRoute, FadeTransitionMixin {
+  const ProfileRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const ComingSoonPage(title: 'Profile');
+}
+
+// Notifications - Fade Animation
+class NotificationsRoute extends GoRouteData
+    with $NotificationsRoute, FadeTransitionMixin {
+  const NotificationsRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const ComingSoonPage(title: 'Notifications');
+}
+
+// Help & Support - Fade Animation
+class HelpRoute extends GoRouteData with $HelpRoute, FadeTransitionMixin {
+  const HelpRoute();
+
+  @override
+  Widget buildScreen(BuildContext context, GoRouterState state) =>
+      const ComingSoonPage(title: 'Help & Support');
+}
