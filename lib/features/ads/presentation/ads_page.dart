@@ -5,10 +5,10 @@ import 'package:clean_riverpod/features/ads/presentation/widgets/ad_form_dialog.
 import 'package:clean_riverpod/features/ads/presentation/widgets/ads_empty_state.dart';
 import 'package:clean_riverpod/features/ads/presentation/widgets/delete_ad_dialog.dart';
 import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
-import 'package:clean_riverpod/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class AdsPage extends ConsumerWidget {
   const AdsPage({super.key});
@@ -61,7 +61,7 @@ class AdsPage extends ConsumerWidget {
         final ad = ads[index];
         return AdCard(
           ad: ad,
-          onTap: () => AdDetailRoute(adId: ad.id).push(context),
+          onTap: () => context.push('/ads/${ad.id}'),
           onLike: () => ref.read(adProvider.notifier).toggleLike(ad.id),
           onEdit: () => _showEditAdDialog(context, ref, ad),
           onDelete: () => _showDeleteDialog(context, ref, ad),
