@@ -192,7 +192,7 @@ class _AdFormDialogState extends State<AdFormDialog> {
                 ),
                 SizedBox(height: 12.h),
                 DropdownButtonFormField<String>(
-                  value: selectedCategory,
+                  initialValue: selectedCategory,
                   decoration: InputDecoration(
                     labelText: 'Category',
                     prefixIcon: const Icon(Icons.category_outlined),

@@ -1,4 +1,4 @@
-import 'package:clean_riverpod/features/auth/repositories/auth_repository%20copy.dart';
+import 'package:clean_riverpod/features/auth/repositories/auth_repository_copy.dart';
 import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
 import 'package:clean_riverpod/features/deshboard/widgets/feature_card.dart';
 import 'package:clean_riverpod/localization/app_locale.dart';

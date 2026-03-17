@@ -1,4 +1,4 @@
-import 'package:clean_riverpod/features/auth/repositories/auth_repository%20copy.dart';
+import 'package:clean_riverpod/features/auth/repositories/auth_repository_copy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

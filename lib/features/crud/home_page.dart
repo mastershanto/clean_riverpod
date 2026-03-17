@@ -5,6 +5,7 @@ import 'package:clean_riverpod/features/crud/presentation/widgets/user_form_dial
 import 'package:clean_riverpod/features/crud/models/user_model.dart';
 import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
 import 'package:clean_riverpod/features/crud/providers/user_provider.dart';
+import 'package:clean_riverpod/core/widgets/async_value_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,13 +22,8 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: _buildAppBar(context, ref, isDark),
       floatingActionButton: _buildFAB(context, ref),
-      body: usersAsync.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (error, stackTrace) => Center(
-          child: Text('Error: $error'),
-        ),
+      body: AsyncValueView<List<UserModel>>(
+        value: usersAsync,
         data: (users) => users.isEmpty
             ? const EmptyState()
             : _buildUserList(context, ref, users),

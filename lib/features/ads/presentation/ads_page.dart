@@ -4,6 +4,7 @@ import 'package:clean_riverpod/features/ads/presentation/widgets/ad_card.dart';
 import 'package:clean_riverpod/features/ads/presentation/widgets/ad_form_dialog.dart';
 import 'package:clean_riverpod/features/ads/presentation/widgets/ads_empty_state.dart';
 import 'package:clean_riverpod/features/ads/presentation/widgets/delete_ad_dialog.dart';
+import 'package:clean_riverpod/core/widgets/async_value_view.dart';
 import 'package:clean_riverpod/features/crud/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,9 +39,8 @@ class AdsPage extends ConsumerWidget {
         icon: const Icon(Icons.add),
         label: const Text('Create Ad'),
       ),
-      body: adsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: Text('Error: $error')),
+      body: AsyncValueView<List<AdModel>>(
+        value: adsAsync,
         data: (ads) => ads.isEmpty
             ? const AdsEmptyState()
             : _buildAdsList(context, ref, ads),

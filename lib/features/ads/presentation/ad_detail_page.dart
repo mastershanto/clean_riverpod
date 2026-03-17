@@ -1,5 +1,6 @@
 import 'package:clean_riverpod/features/ads/presentation/widgets/ad_image.dart';
 import 'package:clean_riverpod/features/ads/providers/ad_provider.dart';
+import 'package:clean_riverpod/core/widgets/async_value_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,8 @@ class _AdDetailPageState extends ConsumerState<AdDetailPage> {
     final adsAsync = ref.watch(adProvider);
     final theme = Theme.of(context);
 
-    return adsAsync.when(
+    return AsyncValueView(
+      value: adsAsync,
       loading: () => const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       ),
